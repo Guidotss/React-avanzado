@@ -1,9 +1,10 @@
-import { ProductButtons, ProductCard, ProductImage, ProductTitle } from '../components/ProductCard';
+import { ProductCard } from '../components';
 
 
 const product = { 
   id: '1',
   title: 'Coffee Mug',
+  image: '../../public/coffee-mug.png'
 }
 
 export const ShoppingPage = () => {
@@ -18,8 +19,9 @@ export const ShoppingPage = () => {
         }}>
 
           <ProductCard product={ product }>
-            <ProductCard.Title title="hola"/>
-            <Product.Image image="https://picsum.photos/200/300" title="hola"/>
+            <ProductCard.Image/>
+            <ProductCard.Title/>
+            <ProductCard.Buttons/>
           </ProductCard>
           
         </div>
