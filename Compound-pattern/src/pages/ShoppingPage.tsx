@@ -5,32 +5,13 @@ import {
   ProductTitle,
 } from "../components";
 import "../assets/styles/custom-styles.css";
-import { Product } from "../interfaces";
-import { useState } from 'react';
+import { products } from '../data'; 
+import { useShoppingCart } from "../hooks";
 
-const product = {
-  id: "1",
-  title: "Coffee Mug",
-  image: "../../public/coffee-mug.png",
-};
-
-const product2 = {
-  id: "2",
-  title: "Coffee Mug",
-  image: "../../public/coffeemug2.png",
-};
-
-const products: Product[] = [product, product2];
-
-interface ProductInCart extends Product {
-  count: number;
-}
 
 export const ShoppingPage = () => {
-
-  const [ shoppingCart, setShoppingCart ] = useState<{ [key:string]:ProductInCart }>({});
-
   
+  const { shoppingCart, onProductCountChange } = useShoppingCart();
 
   return (
     <div>
@@ -45,9 +26,11 @@ export const ShoppingPage = () => {
       >
         {products.map((product) => (
           <ProductCard
+            className="bg-dark text-white"
             key={product.id}
             product={product}
-            className="bg-dark text-white"
+            value={shoppingCart[product.id]?.count || 0}
+            onChange={onProductCountChange}
           >
             <ProductImage className="custom-image" />
             <ProductTitle className="text-bold" />
@@ -56,26 +39,22 @@ export const ShoppingPage = () => {
         ))}
       </div>
       <div className="shopping-cart">
-        <ProductCard
-          product={product}
-          className="bg-dark text-white"
-          style={{
-            width: "100px",
-          }}
-        >
-          <ProductImage className="custom-image" />
-          <ProductButtons className="custom-buttons" />
-        </ProductCard>
-        <ProductCard
-          product={product2}
-          className="bg-dark text-white"
-          style={{
-            width: "100px",
-          }}
-        >
-          <ProductImage className="custom-image" />
-          <ProductButtons className="custom-buttons" />
-        </ProductCard>
+        <h2>Shopping Cart</h2>
+        <hr />
+        <div>
+          {Object.values(shoppingCart).map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              value={product.count}
+              onChange={onProductCountChange}
+            >
+              <ProductImage />
+              <ProductTitle />
+              <ProductButtons />
+            </ProductCard>
+          ))}
+        </div>
       </div>
     </div>
   );
